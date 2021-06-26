@@ -8,7 +8,7 @@ const slugify = require('slugify');
 
 const PORT = process.env.PORT || 3000;
 
-// const replaceTemplate = require('./modules/replaceTemplate');
+const replaceTemplate = require('./modules/replaceTemplate');
 
 const templateOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8');
 const templateProduct = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8');
@@ -23,6 +23,11 @@ const server = http.createServer((req, res) => {
 
     if (pathName === '/' || pathName === '/overview') {
         res.writeHead(200, {'Content-type': 'text/html'});
+
+        const cardsHtml = dataObj.map(element => {
+            replaceTemplate(templateCard, element);
+        });
+
         res.end(templateOverview);
     }
     else if (pathName === '/product') {
